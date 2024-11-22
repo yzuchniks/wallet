@@ -16,8 +16,6 @@ app = Celery('wallet_service')
 
 logger.info(f"CELERY_BROKER_URL: {app.conf.broker_url}")
 
-# Использование переменной окружения CELERY_BROKER_URL
-app.conf.update(broker_url=env('CELERY_BROKER_URL'))
+app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# Автоматический поиск задач
 app.autodiscover_tasks()

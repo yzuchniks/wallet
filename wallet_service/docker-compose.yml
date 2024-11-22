@@ -8,8 +8,6 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
-    volumes:
-      - app_data:/app
     user: "${UID}:${GID}"
     depends_on:
       - db
@@ -31,8 +29,6 @@ services:
   celery:
     build: .
     command: celery -A wallet_service.celery worker --loglevel=info
-    volumes:
-      - app_data:/app
     depends_on:
       - redis
       - db
@@ -52,5 +48,4 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  app_data: {}
   postgres_data: {}
