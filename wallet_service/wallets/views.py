@@ -34,7 +34,10 @@ class WalletOperationView(APIView):
                 args=(wallet_id, operation_type, amount)
             )
             return Response(
-                {'message': 'Операция в процессе. ID задачи: {}'.format(task.id)},
+                {
+                    'message': 'Операция в процессе. '
+                               'ID задачи: {}'.format(task.id)
+                },
                 status=status.HTTP_202_ACCEPTED
             )
 
