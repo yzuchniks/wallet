@@ -1,0 +1,11 @@
+DEPOSIT = 'DEPOSIT'
+WITHDRAW = 'WITHDRAW'
+MAX_DIGITS = 20
+DEC_PLACES = 2
+DEF_BALANCE = 0
+NAME_LENGTH = 10
+
+OPERATION_TYPES = [
+        (DEPOSIT, 'Пополнение'),
+        (WITHDRAW, 'Снятие'),
+    ]
