@@ -1,6 +1,7 @@
-from rest_framework import status
 import pytest
-from . constants import INITIAL_AMOUNT
+from rest_framework import status
+
+from .constants import INITIAL_AMOUNT
 
 
 @pytest.mark.parametrize(

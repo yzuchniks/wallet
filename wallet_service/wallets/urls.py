@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import WalletDetailView, WalletOperationView
 
+from .views import WalletDetailView, WalletOperationView
 
 urlpatterns = [
     path(

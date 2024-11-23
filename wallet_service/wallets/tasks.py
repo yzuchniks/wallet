@@ -1,9 +1,10 @@
+import logging
+
 from celery import shared_task
-from django.db import transaction, IntegrityError
+from django.db import IntegrityError, transaction
 from django.db.utils import OperationalError
 
-from .models import Wallet, Operation
-import logging
+from .models import Operation, Wallet
 
 logger = logging.getLogger(__name__)
 

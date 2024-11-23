@@ -1,7 +1,8 @@
 import pytest
 from django.urls import reverse
+
 from wallets.models import Wallet
-from . constants import INVALID_UUID, NON_EXISTENT_UUID, INITIAL_AMOUNT
+from .constants import INITIAL_AMOUNT, INVALID_UUID, NON_EXISTENT_UUID
 
 
 @pytest.fixture(autouse=True)

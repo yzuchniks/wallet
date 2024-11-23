@@ -1,7 +1,8 @@
-from rest_framework import status
 import pytest
-from . constants import (AMOUNT, INITIAL_AMOUNT, NEGATIVE_AMOUNT, ZERO_AMOUNT,
-                         WITHDRAW, DEPOSIT, BIG_AMOUNT)
+from rest_framework import status
+
+from .constants import (AMOUNT, BIG_AMOUNT, DEPOSIT, INITIAL_AMOUNT,
+                        NEGATIVE_AMOUNT, WITHDRAW, ZERO_AMOUNT)
 
 
 @pytest.mark.parametrize(

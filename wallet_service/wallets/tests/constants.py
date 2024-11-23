@@ -1,6 +1,5 @@
 from decimal import Decimal
 
-
 INITIAL_AMOUNT = Decimal('1000.00')
 AMOUNT = Decimal('500.00')
 BIG_AMOUNT = Decimal('2000.00')

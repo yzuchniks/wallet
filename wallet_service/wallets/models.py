@@ -1,7 +1,9 @@
 import uuid
+
 from django.db import models
-from .constants import (OPERATION_TYPES, MAX_DIGITS, DEC_PLACES,
-                        DEF_BALANCE, NAME_LENGTH)
+
+from .constants import (DEC_PLACES, DEF_BALANCE, MAX_DIGITS, NAME_LENGTH,
+                        OPERATION_TYPES)
 
 
 class Wallet(models.Model):

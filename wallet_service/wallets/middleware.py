@@ -1,5 +1,6 @@
-from django.http import JsonResponse
 import re
+
+from django.http import JsonResponse
 
 
 class UUIDValidationMiddleware:
