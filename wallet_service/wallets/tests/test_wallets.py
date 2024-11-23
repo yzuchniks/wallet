@@ -1,26 +1,34 @@
 from rest_framework import status
+import pytest
+from . constants import INITIAL_AMOUNT
 
 
-def test_get_wallet_balance(balance_url, client):
-    """Тест на получение баланса кошелька."""
-    wallet_id = balance_url.split('/')[-2]
-    response = client.get(balance_url)
+@pytest.mark.parametrize(
+    'url, expected_status_code, expected_error_message',
+    (
+        (pytest.lazy_fixture('balance_url'),
+         status.HTTP_200_OK, None),
+        (pytest.lazy_fixture('balance_invalid_url'),
+         status.HTTP_400_BAD_REQUEST, 'Неверный формат UUID'),
+        (pytest.lazy_fixture('balance_nonexist_url'),
+         status.HTTP_404_NOT_FOUND, 'Кошелек с таким UUID не найден.')
+    )
+)
+def test_get_wallet_balance(
+    client,
+    url,
+    expected_status_code,
+    expected_error_message
+):
+    """Тесты на получение баланса кошелька с различными условиями."""
 
-    assert response.status_code == status.HTTP_200_OK
-    assert response.data['wallet_id'] == wallet_id
+    response = client.get(url)
 
+    assert response.status_code == expected_status_code
 
-def test_get_wallet_balance_invalid_uuid(balance_invalid_url, client):
-    """Тест на некорректный формат UUID кошелька."""
-    response = client.get(balance_invalid_url)
-
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json()['error'] == 'Неверный формат UUID'
-
-
-def test_get_wallet_balance_non_existent_wallet(balance_nonexist_url, client):
-    """Тест на несуществующий UUID кошелька."""
-    response = client.get(balance_nonexist_url)
-
-    assert response.status_code == status.HTTP_404_NOT_FOUND
-    assert response.json()['error'] == 'Кошелек с таким UUID не найден.'
+    if expected_error_message:
+        assert response.json()['error'] == expected_error_message
+    else:
+        wallet_id = url.split('/')[-2]
+        assert response.data['wallet_id'] == wallet_id
+        assert response.data['balance'] == str(INITIAL_AMOUNT)

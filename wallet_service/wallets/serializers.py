@@ -33,7 +33,6 @@ class OperationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'Недостаточно средств для выполнения операции.'
             )
-
         return data
 
 

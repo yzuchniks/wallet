@@ -6,6 +6,10 @@ from .serializers import WalletSerializer, OperationSerializer
 from django.shortcuts import get_object_or_404
 from .tasks import process_wallet_operation
 from django.http import Http404
+from .utils import check_request_limit
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class WalletDetailView(APIView):
@@ -23,22 +27,30 @@ class WalletDetailView(APIView):
 
 class WalletOperationView(APIView):
     def post(self, request, wallet_id):
+        try:
+            check_request_limit(wallet_id)
+        except Exception as e:
+            return Response({'error': str(e)},
+                            status=status.HTTP_429_TOO_MANY_REQUESTS)
+        logger.debug(f'Начало обработки операции для кошелька {wallet_id}')
         data = request.data.copy()
         data['wallet_id'] = wallet_id
         serializer = OperationSerializer(data=data)
 
         if serializer.is_valid():
+            logger.debug(f'Сериализатор валиден: {serializer.validated_data}')
             operation_type = serializer.validated_data['operation_type']
             amount = serializer.validated_data['amount']
             task = process_wallet_operation.apply_async(
                 args=(wallet_id, operation_type, amount)
             )
+            logger.debug(f'Задача запущена, ID: {task.id}')
             return Response(
                 {
-                    'message': 'Операция в процессе. '
-                               'ID задачи: {}'.format(task.id)
+                    'message': 'Операция в процессе.',
+                    'task_id': task.id
                 },
                 status=status.HTTP_202_ACCEPTED
             )
-
+        logger.warning(f'Сериализатор невалиден: {serializer.errors}')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

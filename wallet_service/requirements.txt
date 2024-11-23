@@ -18,8 +18,9 @@ packaging==24.2
 pluggy==1.5.0
 prompt_toolkit==3.0.48
 psycopg2==2.9.10
-pytest==8.3.3
+pytest==7.4.0
 pytest-django==4.9.0
+pytest-lazy-fixture==0.6.3
 python-dateutil==2.9.0.post0
 redis==5.2.0
 six==1.16.0

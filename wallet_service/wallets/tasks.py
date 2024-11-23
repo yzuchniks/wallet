@@ -8,11 +8,13 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-@shared_task
-def process_wallet_operation(wallet_id, operation_type, amount):
+@shared_task(bind=True, max_retries=3, default_retry_delay=5)
+def process_wallet_operation(self, wallet_id, operation_type, amount):
     try:
         with transaction.atomic():
-            wallet = Wallet.objects.get(wallet_id=wallet_id)
+            wallet = Wallet.objects.select_for_update().get(
+                wallet_id=wallet_id
+            )
 
             if operation_type == 'DEPOSIT':
                 wallet.balance += amount
@@ -20,13 +22,15 @@ def process_wallet_operation(wallet_id, operation_type, amount):
                 wallet.balance -= amount
 
             wallet.save()
+            logger.info(f'Баланс после операции для кошелька '
+                        F'{wallet_id}: {wallet.balance}')
 
             Operation.objects.create(
                 wallet=wallet, operation_type=operation_type, amount=amount
             )
             return (
                 f'Операция {operation_type} выполнена для кошелька '
-                f'{wallet_id}.'
+                f'{wallet_id}. Баланс: {wallet.balance}'
             )
 
     except Wallet.DoesNotExist:
