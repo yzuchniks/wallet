@@ -23,4 +23,6 @@ docker exec -it django_app /bin/bash
 ```
 locust -f locustfile.py --host=http://localhost:8000 --users 1000 --spawn-rate 100 --run-time 1m
 ```
+Перейти по адресу: http://localhost:8089
+
 (Но они падают...)
