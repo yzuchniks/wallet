@@ -1,6 +1,7 @@
 from pathlib import Path
 import environ
 import logging
+import sys
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -72,10 +73,12 @@ WSGI_APPLICATION = 'wallet_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DB = env('POSTGRES_DB')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('POSTGRES_DB'),
+        'NAME': DB,
         'USER': env('POSTGRES_USER'),
         'PASSWORD': env('POSTGRES_PASSWORD'),
         'HOST': env('DB_HOST'),
@@ -83,6 +86,8 @@ DATABASES = {
     }
 }
 
+if 'test' in sys.argv:
+    DATABASES['default']['NAME'] = f'test_{DB}'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
