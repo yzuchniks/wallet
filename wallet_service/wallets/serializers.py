@@ -27,7 +27,12 @@ class OperationSerializer(serializers.ModelSerializer):
         operation_type = data.get('operation_type')
         amount = data.get('amount')
         wallet_id = self.initial_data.get('wallet_id')
-        wallet = Wallet.objects.get(wallet_id=wallet_id)
+        try:
+            wallet = Wallet.objects.get(wallet_id=wallet_id)
+        except Wallet.DoesNotExist:
+            raise serializers.ValidationError(
+                {'wallet_id': f'Кошелек с UUID {wallet_id} не найден.'}
+            )
 
         if operation_type == 'WITHDRAW' and wallet.balance < amount:
             raise serializers.ValidationError(
