@@ -14,6 +14,11 @@ class Wallet(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['wallet_id'])
+        ]
+
     def __str__(self):
         return f'Кошелек: {self.wallet_id} - Баланс: {self.balance}'
 
