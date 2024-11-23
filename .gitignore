@@ -13,7 +13,7 @@ env/
 # Кэш pip
 pip-log.txt
 pip-delete-this-directory.txt
-__pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
 
