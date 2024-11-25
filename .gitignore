@@ -1,0 +1,65 @@
+# Виртуальное окружение
+venv/
+env/
+*.env
+
+# Кэш Pytest
+.cache/
+
+# Папки и файлы с настройками IDE
+.vscode/
+.idea/
+
+# Кэш pip
+pip-log.txt
+pip-delete-this-directory.txt
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Кэш Python
+*.pyd
+*.pyc
+*.pyo
+
+# Персональные конфигурации и временные файлы
+*.log
+*.bak
+*.swp
+*.swo
+
+# Конфигурационные файлы для среды и приложения
+*.env
+.env
+*.ini
+*.yml
+*.yaml
+
+# Майпай и кэш
+.mypy_cache/
+.dmypy.json
+.python-lcov
+.coverage
+.coverage.*
+.pytest_cache
+
+# Система сборки и зависимости
+*.egg-info/
+.eggs/
+dist/
+build/
+*.tgz
+*.tar.gz
+*.whl
+
+# Локальные настройки для Docker Compose
+docker-compose.override.yml
+
+# Локальные данные и тома
+volumes/
+
+# Лог-файлы Docker
+*.log
+
+# VSCode
+.vscode/
