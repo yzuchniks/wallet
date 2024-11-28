@@ -32,8 +32,6 @@ pip-delete-this-directory.txt
 *.env
 .env
 *.ini
-*.yml
-*.yaml
 
 # Майпай и кэш
 .mypy_cache/
